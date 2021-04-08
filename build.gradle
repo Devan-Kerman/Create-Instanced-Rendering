@@ -1,234 +1,347 @@
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
-        mavenCentral()
-        maven { url='https://repo.spongepowered.org/repository/maven-public/' }
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
-    }
-}
+/*
+ * This file is part of Applied Energistics 2.
+ * Copyright (c) 2013 - 2015, AlgorithmX2, All rights reserved.
+ *
+ * Applied Energistics 2 is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Applied Energistics 2 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with Applied Energistics 2.  If not, see <http://www.gnu.org/licenses/lgpl>.
+ */
+
 plugins {
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
-    id 'com.matthewprenger.cursegradle' version '1.4.0'
-}
-apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-
-boolean dev = System.getenv('RELEASE') == null || System.getenv('RELEASE').equals('false');
-
-ext.buildnumber = 0
-project.buildnumber = System.getenv('BUILD_NUMBER') != null ? System.getenv('BUILD_NUMBER') : "custom"
-
-version = "mc${minecraft_version}_v${mod_version}" + (dev ? "+${buildnumber}" : '')
-group = 'com.simibubi.create'
-archivesBaseName = 'create'
-
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
-
-minecraft {
-    mappings channel: 'snapshot', version: '20200920-mixed-1.16.3'
-	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    
-    runs {		
-		client {
-            workingDirectory project.file('run')
-            // property 'mixin.env.disableRefMap', 'true'
-            arg '-mixin.config=create.mixins.json'
-            //jvmArgs '-XX:+UnlockCommercialFeatures'
-            jvmArgs '-Dmixin.env.disableRefMap=true'
-            property 'forge.logging.console.level', 'info'
-            property 'fml.earlyprogresswindow', 'false'
-            mods {
-                create {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        server {
-            workingDirectory project.file('run/server')
-            // property 'mixin.env.disableRefMap', 'true'
-            arg '-mixin.config=create.mixins.json'
-            property 'forge.logging.console.level', 'info'
-            mods {
-                create {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run')
-            property 'forge.logging.markers', 'REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-            property 'fml.earlyprogresswindow', 'false'
-            args '--mod', 'create', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources')
-            mods {
-                create {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
-}
-
-compileJava {
-    options.compilerArgs = ["-Xdiags:verbose"]
-}
-
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
+    id 'java'
+    id 'forgified-fabric-loom'
+    id 'maven-publish'
+    id "com.diffplug.gradle.spotless" version "4.3.0"
+    id "com.matthewprenger.cursegradle" version "1.4.0"
+    id "org.sonarqube" version "2.8"
+    id "jacoco"
 }
 
 repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url = "https://maven.fabricmc.net/" }
     maven {
-        // location of the maven that hosts JEI files (And TiC)
-        name "Progwml6 maven"
-        url "https://dvs1.progwml6.com/files/maven/"
-    }
-    /*
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name "ModMaven"
-        url "https://modmaven.k-4u.nl"
-    }*/
-    maven {
-        //location of the maven for vazkii's mods
-        name "blamejared"
-        url "http://maven.blamejared.com/"
+        name = "BuildCraft"
+        url = "https://mod-buildcraft.com/maven"
+        content {
+            includeGroup "alexiil.mc.lib"
+        }
     }
     maven {
-        //location of the maven for mixed mappings and registrate
+        name = "HYWLA"
+        url = "https://maven.tehnut.info/"
+        content {
+            includeGroup "mcp.mobius.waila"
+        }
+    }
+    maven {
+        name = "shedaniel"
+        url = "https://maven.shedaniel.me"
+        content {
+            includeGroup "me.sargunvohra.mcmods"
+            includeGroup "me.shedaniel"
+            includeGroup "me.shedaniel.cloth"
+            includeGroup "me.shedaniel.cloth.api"
+        }
+    }
+    maven {
+        //location of the maven for mixed mappings
         name = "tterrag maven"
         url = "https://maven.tterrag.com/"
     }
-    maven {
-        url = "https://www.cursemaven.com"
-    }
+}
 
-    flatDir {
-        dirs 'deps'
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings group: "de.oceanlabs.mcp", name: "mcp_snapshot", version: "20200920-mixed-1.16.3", ext: 'zip'
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+
+}
+group = artifact_group
+archivesBaseName = artifact_basename
+
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+compileJava {
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+    options.deprecation = false
+}
+
+// ensure everything uses UTF-8 and not some random codepage chosen by gradle
+compileJava.options.encoding = 'UTF-8'
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+///////////////////
+// Version Number
+
+ext.pr = System.getenv('PR_NUMBER') ?: ""
+if (ext.pr) {
+    version = version + "+pr." + ext.pr
+}
+
+ext.branch = System.getenv('BRANCH') ?: ""
+if (ext.branch) {
+    version = version + "+branch." + ext.branch
+}
+
+ext.tag = System.getenv('TAG') ?: ""
+if (ext.tag && ext.tag.startsWith("fabric/v") && System.getenv("GITHUB_ENV")) {
+    version = ext.tag.substring("fabric/v".length())
+    def envFile = new File(System.getenv("GITHUB_ENV"))
+    // Validate that the rest is a semver version
+    if (version ==~ /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/) {
+        envFile.append("VERSION=${version}")
+    } else {
+        throw new GradleException("Invalid semver: $version")
+    }
+}
+
+ext.isAlpha = project.version.contains("alpha")
+ext.isBeta = project.version.contains("beta")
+
+sourceSets {
+    api
+    main {
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+        resources {
+            srcDir 'src/generated/resources'
+        }
+    }
+    datagen {
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+    test {
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+    }
+    siteexport {
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
     }
 }
 
 configurations {
-    shade
+    apiCompile.extendsFrom(compileClasspath)
+    datagenCompile.extendsFrom(compileClasspath)
+    siteexportCompile.extendsFrom(compileClasspath)
+    siteexportRuntime.extendsFrom(runtimeClasspath)
 }
 
-dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    
-    def registrate = "com.tterrag.registrate:Registrate:MC1.16.2-${registrate_version}"
-    implementation fg.deobf(registrate)
-    shade registrate
+test {
+    useJUnitPlatform()
+}
 
-    // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-1.16.4:${jei_version}:api")
-    // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:${jei_version}")
+////////////////////
+// Forge/Minecraft
+minecraft {
+    //accessWidener "src/main/resources/appliedenergistics2.accesswidener"
+}
 
-    // implementation fg.deobf("curse.maven:druidcraft-340991:3101903")
+processResources {
+    inputs.property "version", project.version
 
-    // i'll leave this here commented for easier testing
-    //runtimeOnly fg.deobf("vazkii.arl:AutoRegLib:1.4-35.69")
-    //runtimeOnly fg.deobf("vazkii.quark:Quark:r2.0-212.984")
-    // runtimeOnly fg.deobf("slimeknights.mantle:Mantle:1.16.3-1.6.40")
-    // runtimeOnly fg.deobf("slimeknights.tconstruct:TConstruct:1.16.3-3.0.1.24")
+    from(sourceSets.main.resources.srcDirs) {
+        include "fabric.mod.json"
+        expand "version": project.version
+    }
 
-    compileOnly fg.deobf("local:starlight-1.0.0-RC1")
-    //runtimeOnly fg.deobf("local:starlight-1.0.0-RC1")
+    from(sourceSets.main.resources.srcDirs) {
+        exclude "fabric.mod.json"
+    }
+}
 
-    annotationProcessor 'org.spongepowered:mixin:0.8:processor'
+//////////////
+// Aritfacts
+processResources {
+    exclude '.cache'
 }
 
 jar {
-    classifier = 'slim'
+    finalizedBy 'remapJar'
+
+    from sourceSets.main.output.classesDirs
+    from sourceSets.api.output.classesDirs
+    from sourceSets.main.output.resourcesDir
+    from sourceSets.api.output.resourcesDir
+
     manifest {
         attributes([
-            "Specification-Title": "create",
-            "Specification-Vendor": "simibubi",
-            "Specification-Version": "1",
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"simibubi",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs": "create.mixins.json"
+                "Specification-Title": "Applied Energistics 2",
+                "Specification-Vendor": "TeamAppliedEnergistics",
+                "Specification-Version": "${project.version}",
+                "Implementation-Title": "${project.name}",
+                "Implementation-Version": "${project.version}",
+                "Implementation-Vendor" :"TeamAppliedEnergistics",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs": "appliedenergistics2.mixins.json"
         ])
     }
 }
 
-shadowJar {
-    classifier = ''
-    configurations = [project.configurations.shade]
-    relocate 'com.tterrag.registrate', 'com.simibubi.create.repack.registrate'
+task javadocs(type: Javadoc) {
+    classpath = sourceSets.main.compileClasspath
+    source = sourceSets.api.java
+    include "appeng/api/**"
+
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.encoding = 'UTF-8'
+    options.charSet = 'UTF-8'
 }
 
-reobf {
-    shadowJar {}
+task javadocJar(type: Jar, dependsOn: javadocs) {
+    classifier = "javadoc"
+    from javadoc.destinationDir
+}
+// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
+// if it is present.
+// If you remove this task, sources will not be generated.
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = "sources"
+    from sourceSets.main.allSource
+    from sourceSets.api.allSource
 }
 
-String getChangelogText() {
-    def changelogFile = file('changelog.txt')
-    String str = ''
-    int lineCount = 0
-    boolean done = false
-    changelogFile.eachLine {
-        if (done || it == null) {
-            return
-        }
-        if (it.size() > 1) {
-            def temp = it
-            if (lineCount == 0) {
-                temp = "Create ${version}"
-                temp = "<span style=\"font-size: 18px; color: #333399;\">Create v${mod_version}</span>&nbsp;&nbsp;<em>for Minecraft ${minecraft_version}</em><br/>"
-            } else if (it.startsWith('-')) {
-                temp = "&nbsp;&nbsp;&nbsp;$temp<br/>"
-                temp = temp.replaceAll("(\\S+\\/\\S+)#([0-9]+)\\b", "<a href=\"https://github.com/\$1/issues/\$2\">\$0</a>");
-                temp = temp.replaceAll("#([0-9]+)\\b(?!<\\/a>)", "<a href=\"https://github.com/$github_project/issues/\$1\">\$0</a>");
-            } else {
-                temp = "<h4>$temp</h4>"
+task apiJar(type: Jar) {
+    classifier = "api"
+    from sourceSets.api.output
+    include "appeng/api/**"
+
+    // TODO: when FG bug is fixed, remove allJava from the api jar.
+    // https://github.com/MinecraftForge/ForgeGradle/issues/369
+    // Gradle should be able to pull them from the -sources jar.
+    from sourceSets.api.allJava
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+    archives apiJar
+}
+
+//////////////////
+// Maven publish
+publishing {
+    if (!version.endsWith("-SNAPSHOT")) {
+        publications {
+            maven(MavenPublication) {
+                groupId = project.group
+                artifactId = 'appliedenergistics2-fabric'
+                version = project.version
+
+                // add all the jars that should be included when publishing to maven
+                artifact(remapJar) {
+                    builtBy remapJar
+                }
+                artifact(sourcesJar) {
+                    builtBy remapSourcesJar
+                }
+                artifact javadocJar
+                artifact apiJar
             }
-            str += temp
-            lineCount++
-        } else {
-            str += "<p>Please submit any Issues you come across on the&nbsp;<a href=\"https://github.com/${github_project}/issues\" rel=\"nofollow\">Issue Tracker</a>.</p>"
-            done = true
         }
     }
-    return str
+    repositories {
+        maven {
+            url = "gcs://devan-maven"
+        }
+    }
+
 }
 
-//changelog debugging
-//new File("changelog.html").write getChangelogText()
+import net.fabricmc.loom.task.RunClientTask;
 
-tasks.curseforge.enabled = !dev && project.hasProperty('simi_curseforge_key')
-    
-curseforge {
-    if (project.hasProperty('simi_curseforge_key')) {
-        apiKey = project.simi_curseforge_key
+task generateData(type: RunClientTask, dependsOn: downloadAssets, group: "ae2", description: "Generates various JSON assets for the mod") {
+    classpath = configurations.runtimeClasspath
+    classpath sourceSets.api.output
+    classpath sourceSets.main.output
+    classpath sourceSets.datagen.output
+    systemProperty "appeng.generateData", "true"
+}
+build.dependsOn generateData
+
+task runSiteExport(type: RunClientTask, dependsOn: downloadAssets, group: "ae2", description: "Export game assets for the website") {
+    classpath = configurations.runtimeClasspath
+    classpath sourceSets.api.output
+    classpath sourceSets.main.output
+    classpath sourceSets.siteexport.output
+}
+
+/////////////
+// Spotless
+spotless {
+    java {
+        target 'src/*/java/appeng/**/*.java'
+
+        indentWithSpaces()
+        eclipse().configFile 'codeformat/codeformat.xml'
+        importOrderFile 'codeformat/ae2.importorder'
+    }
+    format 'json', {
+        target 'src/*/resources/**/*.json'
+        targetExclude 'src/generated/resources/**'
+        prettier().config(['parser': 'json'])
+    }
+}
+
+////////////////
+// Curse Forge
+if (System.getenv("CURSEFORGE") && !version.endsWith("-SNAPSHOT")) {
+    def cfReleaseType = "release"
+    if (ext.isAlpha) {
+        cfReleaseType = "alpha"
+    } else if (ext.isBeta) {
+        cfReleaseType = "beta"
     }
 
-    project {
-        id = project.projectId
-        changelog = System.getenv('CHANGELOG') == null || System.getenv('CHANGELOG').equals('none') ? getChangelogText() : System.getenv('CHANGELOG')
-        changelogType = 'html'
-        releaseType = project.curse_type
-        mainArtifact(shadowJar) {
-            displayName = "Create - ${version}"
+    curseforge {
+        apiKey = System.getenv("CURSEFORGE")
+        project {
+            id = project.curseforge_project
+            changelogType = "markdown"
+            changelog = System.getenv("CHANGELOG") ?: "Please visit our [releases](https://github.com/AppliedEnergistics/Applied-Energistics-2/releases) for a changelog"
+            releaseType = cfReleaseType
+            addGameVersion project.minecraft_version
+            addGameVersion "Fabric"
+            mainArtifact(remapJar.archiveFile) {
+                displayName = "${project.version} [FABRIC]"
+            }
         }
-        relations {
-        	optionalDependency 'jei'
+        options {
+            forgeGradleIntegration = false
+        }
+        afterEvaluate {
+            tasks.getByName("curseforge${project.curseforge_project}").dependsOn remapJar
         }
     }
 }
 
-apply plugin: 'org.spongepowered.mixin'
-
-mixin {
-    add sourceSets.main, "create.refmap.json"
+////////////////
+// IntelliJ Project Import
+// The Mixin annotation process does not have an obfuscation source when running through the IntelliJ compiler,
+// thus we have to prevent it from being activated as part of importing this Gradle project into IntelliJ.
+if (System.getProperty("idea.sync.active") == "true") {
+    afterEvaluate {
+        tasks.withType(JavaCompile).all {
+            it.options.annotationProcessorPath = files()
+        }
+    }
 }
