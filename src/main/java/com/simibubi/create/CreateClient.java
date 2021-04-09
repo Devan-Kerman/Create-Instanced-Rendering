@@ -7,15 +7,14 @@ import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
-import com.simibubi.create.foundation.block.render.CustomBlockModels;
+import com.simibubi.create.foundation.ResourceReloadHandler;
+import com.simibubi.create.foundation.render.AllProgramSpecs;
 import com.simibubi.create.foundation.render.KineticRenderer;
 import com.simibubi.create.foundation.render.SuperByteBufferCache;
 import com.simibubi.create.foundation.render.backend.Backend;
 import com.simibubi.create.foundation.render.backend.OptifineHandler;
 import com.simibubi.create.foundation.render.backend.instancing.InstancedTileRenderer;
 import com.simibubi.create.foundation.utility.WorldAttached;
-import com.simibubi.create.foundation.utility.ghost.GhostBlocks;
-import com.simibubi.create.foundation.utility.outliner.Outliner;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -41,17 +40,12 @@ public class CreateClient {
 
 	public static SuperByteBufferCache bufferCache;
 	public static WorldAttached<KineticRenderer> kineticRenderer;
-	public static final Outliner outliner = new Outliner();
-	public static GhostBlocks ghostBlocks;
-
 	public static void clientInit(FMLClientSetupEvent event) {
 		AllProgramSpecs.init();
 		kineticRenderer = new WorldAttached<>(KineticRenderer::new);
 		bufferCache = new SuperByteBufferCache();
 		bufferCache.registerCompartment(KineticTileEntityRenderer.KINETIC_TILE);
 		bufferCache.registerCompartment(ContraptionRenderDispatcher.CONTRAPTION, 20);
-
-		ghostBlocks = new GhostBlocks();
 		IResourceManager resourceManager = Minecraft.getInstance()
 			.getResourceManager();
 		if (resourceManager instanceof IReloadableResourceManager)

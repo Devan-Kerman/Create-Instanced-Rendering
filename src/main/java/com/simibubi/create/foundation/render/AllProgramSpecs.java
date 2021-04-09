@@ -2,14 +2,6 @@ package com.simibubi.create.foundation.render;
 
 import static com.simibubi.create.foundation.render.backend.Backend.register;
 
-import com.simibubi.create.Create;
-import com.simibubi.create.content.contraptions.base.KineticAttributes;
-import com.simibubi.create.content.contraptions.base.RotatingAttributes;
-import com.simibubi.create.content.contraptions.components.actors.ActorVertexAttributes;
-import com.simibubi.create.content.contraptions.components.structureMovement.render.ContraptionAttributes;
-import com.simibubi.create.content.contraptions.components.structureMovement.render.ContraptionProgram;
-import com.simibubi.create.content.contraptions.relays.belt.BeltAttributes;
-import com.simibubi.create.content.logistics.block.FlapAttributes;
 import com.simibubi.create.foundation.render.backend.core.BasicAttributes;
 import com.simibubi.create.foundation.render.backend.core.ModelAttributes;
 import com.simibubi.create.foundation.render.backend.core.OrientedAttributes;
@@ -41,7 +33,7 @@ public class AllProgramSpecs {
 			.setFrag(Locations.MODEL_FRAG)
 			.createProgramSpec());
 
-	public static final ProgramSpec<BasicProgram> ROTATING = register(ProgramSpec.builder("rotating", BasicProgram::new)
+	/*public static final ProgramSpec<BasicProgram> ROTATING = register(ProgramSpec.builder("rotating", BasicProgram::new)
 			.addAttributes(ModelAttributes.class)
 			.addAttributes(BasicAttributes.class)
 			.addAttributes(KineticAttributes.class)
@@ -116,7 +108,7 @@ public class AllProgramSpecs {
 			.addAttributes(ActorVertexAttributes.class)
 			.setVert(Locations.CONTRAPTION_ACTOR)
 			.setFrag(Locations.CONTRAPTION)
-			.createProgramSpec());
+			.createProgramSpec());*/
 
 
 	public static class Locations {

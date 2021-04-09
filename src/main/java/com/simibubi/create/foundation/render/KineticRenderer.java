@@ -2,10 +2,7 @@ package com.simibubi.create.foundation.render;
 
 import java.util.ArrayList;
 
-import com.simibubi.create.content.contraptions.base.KineticRenderMaterials;
-import com.simibubi.create.content.contraptions.base.RotatingModel;
-import com.simibubi.create.content.contraptions.relays.belt.BeltInstancedModel;
-import com.simibubi.create.content.logistics.block.FlapModel;
+import com.simibubi.create.foundation.render.backend.MaterialTypes;
 import com.simibubi.create.foundation.render.backend.core.OrientedModel;
 import com.simibubi.create.foundation.render.backend.core.TransformedModel;
 import com.simibubi.create.foundation.render.backend.gl.BasicProgram;
@@ -27,7 +24,8 @@ public class KineticRenderer extends InstancedTileRenderer<BasicProgram> {
 
 	@Override
 	public void registerMaterials() {
-		materials.put(MaterialTypes.TRANSFORMED,
+		materials.put(
+				MaterialTypes.TRANSFORMED,
 			new RenderMaterial<>(this, AllProgramSpecs.MODEL, TransformedModel::new));
 		materials.put(MaterialTypes.ORIENTED, new RenderMaterial<>(this, AllProgramSpecs.ORIENTED, OrientedModel::new));
 
