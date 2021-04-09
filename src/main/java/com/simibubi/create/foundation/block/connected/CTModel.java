@@ -5,9 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour.CTContext;
-import com.simibubi.create.foundation.utility.Iterate;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.model.BakedQuad;
@@ -29,7 +26,7 @@ public class CTModel extends BakedModelWrapperWithData {
 	private class CTData {
 		int[] indices;
 
-		public CTData() {
+		private CTData() {
 			indices = new int[6];
 			Arrays.fill(indices, -1);
 		}
@@ -41,11 +38,6 @@ public class CTModel extends BakedModelWrapperWithData {
 		int get(Direction face) {
 			return indices[face.getIndex()];
 		}
-	}
-	
-	public CTModel(IBakedModel originalModel, ConnectedTextureBehaviour behaviour) {
-		super(originalModel);
-		this.behaviour = behaviour;
 	}
 
 	@Override

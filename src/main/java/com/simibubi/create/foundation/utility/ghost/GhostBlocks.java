@@ -71,7 +71,7 @@ public class GhostBlocks {
 			this(ghost, params, 1);
 		}
 
-		public Entry(GhostBlockRenderer ghost, GhostBlockParams params, int ttl) {
+		private Entry(GhostBlockRenderer ghost, GhostBlockParams params, int ttl) {
 			this.ghost = ghost;
 			this.params = params;
 			this.ticksToLive = ttl;

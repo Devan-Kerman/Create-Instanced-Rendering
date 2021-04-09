@@ -50,7 +50,7 @@ public class ServerSpeedProvider {
 
 	public static class Packet extends SimplePacketBase {
 
-		public Packet() {}
+		private Packet() {}
 
 		public Packet(PacketBuffer buffer) {}
 

@@ -183,11 +183,4 @@ public class LightUpdater {
 		return set;
 	}
 
-	public static long worldToSection(BlockPos pos) {
-		return SectionPos.asLong(pos.getX(), pos.getY(), pos.getZ());
-	}
-
-	public static long sectionToChunk(long sectionPos) {
-		return sectionPos & 0xFFFFFFFFFFF_00000L;
-	}
 }

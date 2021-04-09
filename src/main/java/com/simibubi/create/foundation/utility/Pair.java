@@ -7,7 +7,7 @@ public class Pair<F, S> {
 	F first;
 	S second;
 
-	protected Pair(F first, S second) {
+	private Pair(F first, S second) {
 		this.first = first;
 		this.second = second;
 	}

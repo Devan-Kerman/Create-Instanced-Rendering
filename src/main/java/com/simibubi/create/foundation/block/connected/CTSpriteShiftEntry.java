@@ -1,8 +1,5 @@
 package com.simibubi.create.foundation.block.connected;
 
-import com.simibubi.create.foundation.block.connected.CTSpriteShifter.CTType;
-import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour.CTContext;
-import com.simibubi.create.foundation.block.render.SpriteShiftEntry;
 import com.simibubi.create.foundation.render.SuperByteBuffer;
 
 public abstract class CTSpriteShiftEntry extends SpriteShiftEntry {
@@ -31,10 +28,6 @@ public abstract class CTSpriteShiftEntry extends SpriteShiftEntry {
 
 	public static class Horizontal extends CTSpriteShiftEntry {
 
-		public Horizontal() {
-			super(2);
-		}
-
 		@Override
 		public int getTextureIndex(CTContext context) {
 			return (context.right ? 1 : 0) + (context.left ? 2 : 0);
@@ -48,10 +41,6 @@ public abstract class CTSpriteShiftEntry extends SpriteShiftEntry {
 	}
 
 	public static class Vertical extends CTSpriteShiftEntry {
-
-		public Vertical() {
-			super(2);
-		}
 
 		@Override
 		public int getTextureIndex(CTContext context) {
@@ -67,10 +56,6 @@ public abstract class CTSpriteShiftEntry extends SpriteShiftEntry {
 
 	public static class Cross extends CTSpriteShiftEntry {
 
-		public Cross() {
-			super(4);
-		}
-
 		@Override
 		public int getTextureIndex(CTContext context) {
 			return (context.up ? 1 : 0) + (context.down ? 2 : 0) + (context.left ? 4 : 0) + (context.right ? 8 : 0);
@@ -84,10 +69,6 @@ public abstract class CTSpriteShiftEntry extends SpriteShiftEntry {
 	}
 
 	public static class Omnidirectional extends CTSpriteShiftEntry {
-
-		public Omnidirectional() {
-			super(8);
-		}
 
 		@Override
 		public int getTextureIndex(CTContext context) {

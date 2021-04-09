@@ -7,7 +7,7 @@ import net.minecraft.util.math.BlockPos;
 
 public class BlockFace extends Pair<BlockPos, Direction> {
 
-	public BlockFace(BlockPos first, Direction second) {
+	private BlockFace(BlockPos first, Direction second) {
 		super(first, second);
 	}
 

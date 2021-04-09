@@ -6,8 +6,6 @@ import java.nio.ByteBuffer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.simibubi.create.content.contraptions.components.structureMovement.render.ContraptionRenderDispatcher;
-import com.simibubi.create.foundation.block.render.SpriteShiftEntry;
-import com.simibubi.create.foundation.utility.MatrixStacker;
 
 import it.unimi.dsi.fastutil.longs.Long2DoubleMap;
 import it.unimi.dsi.fastutil.longs.Long2DoubleOpenHashMap;
@@ -65,9 +63,6 @@ public class SuperByteBuffer extends TemplateBuffer {
 
 	private static final Long2DoubleMap skyLightCache = new Long2DoubleOpenHashMap();
 	private static final Long2DoubleMap blockLightCache = new Long2DoubleOpenHashMap();
-	Vector4f pos = new Vector4f();
-	Vector3f normal = new Vector3f();
-	Vector4f lightPos = new Vector4f();
 
 	public void renderInto(MatrixStack input, IVertexBuilder builder) {
 		ByteBuffer buffer = template;
@@ -207,11 +202,6 @@ public class SuperByteBuffer extends TemplateBuffer {
 		return this;
 	}
 
-	public SuperByteBuffer rotate(Quaternion q) {
-		transforms.multiply(q);
-		return this;
-	}
-
 	public SuperByteBuffer rotateCentered(Direction axis, float radians) {
 		return translate(.5f, .5f, .5f).rotate(axis, radians)
 			.translate(-.5f, -.5f, -.5f);
@@ -285,19 +275,6 @@ public class SuperByteBuffer extends TemplateBuffer {
 		b = (color & 0xFF);
 		a = 255;
 		return this;
-	}
-
-	private static int getLight(World world, Vector4f lightPos) {
-		BlockPos.Mutable pos = new BlockPos.Mutable();
-		double sky = 0, block = 0;
-		pos.setPos(lightPos.getX() + 0, lightPos.getY() + 0, lightPos.getZ() + 0);
-		sky += skyLightCache.computeIfAbsent(pos.toLong(), $ -> world.getLightLevel(LightType.SKY, pos));
-		block += blockLightCache.computeIfAbsent(pos.toLong(), $ -> world.getLightLevel(LightType.BLOCK, pos));
-		return ((int) sky) << 20 | ((int) block) << 4;
-	}
-
-	public boolean isEmpty() {
-		return ((Buffer) template).limit() == 0;
 	}
 
 	@FunctionalInterface

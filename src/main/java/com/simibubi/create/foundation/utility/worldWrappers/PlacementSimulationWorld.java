@@ -29,15 +29,6 @@ public class PlacementSimulationWorld extends WrappedWorld implements IFlywheelW
 		this(wrapped, new WrappedChunkProvider(WrappedChunk::new));
 	}
 
-	public PlacementSimulationWorld(World wrapped, WrappedChunkProvider chunkProvider) {
-		super(wrapped, chunkProvider);
-		this.chunkProvider = chunkProvider.setWorld(this);
-		spannedChunks = new HashSet<>();
-		lighter = new WorldLightManager(chunkProvider, true, false); // blockLight, skyLight
-		blocksAdded = new HashMap<>();
-		tesAdded = new HashMap<>();
-	}
-
 	@Override
 	public WorldLightManager getLightingProvider() {
 		return lighter;

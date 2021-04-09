@@ -15,7 +15,6 @@ public class SelectInstance<D extends InstanceData> {
 
 	ModelSelector selector;
 
-	private int last = -1;
 	@Nullable
 	private D current;
 

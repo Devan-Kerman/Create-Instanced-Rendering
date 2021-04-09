@@ -12,7 +12,6 @@ import com.simibubi.create.foundation.renderState.RenderTypes;
 import com.simibubi.create.foundation.renderState.SuperRenderTypeBuffer;
 import com.simibubi.create.foundation.utility.AngleHelper;
 import com.simibubi.create.foundation.utility.ColorHelper;
-import com.simibubi.create.foundation.utility.MatrixStacker;
 import com.simibubi.create.foundation.utility.VecHelper;
 
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -51,7 +50,7 @@ public abstract class Outline {
 		float lineWidth = params.getLineWidth();
 		if (lineWidth == 0)
 			return;
-		
+
 		IVertexBuilder builder = buffer.getBuffer(RenderTypes.getOutlineSolid());
 
 		Vector3d diff = end.subtract(start);
@@ -203,12 +202,6 @@ public abstract class Outline {
 
 		public OutlineParams clearTextures() {
 			return this.withFaceTextures(null, null);
-		}
-
-		public OutlineParams withFaceTextures(AllSpecialTextures texture, AllSpecialTextures highlightTexture) {
-			this.faceTexture = Optional.ofNullable(texture);
-			this.hightlightedFaceTexture = Optional.ofNullable(highlightTexture);
-			return this;
 		}
 
 		public OutlineParams highlightFace(@Nullable Direction face) {

@@ -14,7 +14,7 @@ public class ShaderConstants implements GlShader.PreProcessor {
 
     private final ArrayList<String> defines;
 
-    public ShaderConstants() {
+    private ShaderConstants() {
         defines = new ArrayList<>();
     }
 

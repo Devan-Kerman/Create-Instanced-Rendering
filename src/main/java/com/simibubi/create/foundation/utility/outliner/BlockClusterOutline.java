@@ -138,7 +138,7 @@ public class BlockClusterOutline extends Outline {
 		Axis axis;
 		BlockPos pos;
 
-		public MergeEntry(Axis axis, BlockPos pos) {
+		private MergeEntry(Axis axis, BlockPos pos) {
 			this.axis = axis;
 			this.pos = pos;
 		}

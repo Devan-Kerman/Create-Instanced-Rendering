@@ -9,10 +9,7 @@ public class PhysicalFloat {
     float previousValue;
     float value;
 
-    float previousSpeed;
-    float speed;
-
-    float mass;
+	float mass;
 
     private final ArrayList<Force> forces = new ArrayList<>();
 
@@ -71,10 +68,6 @@ public class PhysicalFloat {
 
     public float getValue() {
         return getValue(1);
-    }
-
-    public float getValue(float partialTicks) {
-        return MathHelper.lerp(partialTicks, previousValue, value);
     }
 
 }

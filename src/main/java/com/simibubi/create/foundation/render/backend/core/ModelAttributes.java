@@ -29,13 +29,4 @@ public enum ModelAttributes implements IVertexAttrib {
         return spec;
     }
 
-    @Override
-    public int getDivisor() {
-        return 0;
-    }
-
-    @Override
-    public int getBufferIndex() {
-        return 0;
-    }
 }

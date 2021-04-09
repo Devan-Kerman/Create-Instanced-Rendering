@@ -134,16 +134,7 @@ public class GridAlignedBB {
         translate(by.getX(), by.getY(), by.getZ());
     }
 
-    public void translate(int x, int y, int z) {
-        minX += x;
-        maxX += x;
-        minY += y;
-        maxY += y;
-        minZ += z;
-        maxZ += z;
-    }
-
-    public void mirrorAbout(Direction.Axis axis) {
+	public void mirrorAbout(Direction.Axis axis) {
         Vector3i axisVec = Direction.getFacingFromAxis(Direction.AxisDirection.POSITIVE, axis).getDirectionVec();
         int flipX = axisVec.getX() - 1;
         int flipY = axisVec.getY() - 1;
@@ -206,16 +197,7 @@ public class GridAlignedBB {
         this.grow(s, s, s);
     }
 
-    public void grow(int x, int y, int z) {
-        minX -= x;
-        minY -= y;
-        minZ -= z;
-        maxX += x;
-        maxY += y;
-        maxZ += z;
-    }
-
-    public GridAlignedBB intersect(GridAlignedBB other) {
+	public GridAlignedBB intersect(GridAlignedBB other) {
         int minX = Math.max(this.minX, other.minX);
         int minY = Math.max(this.minY, other.minY);
         int minZ = Math.max(this.minZ, other.minZ);

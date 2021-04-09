@@ -37,20 +37,7 @@ public class BasicData extends InstanceData implements IFlatLight<BasicData> {
         return setColor(color, false);
     }
 
-    public BasicData setColor(int color, boolean alpha) {
-        byte r = (byte) ((color >> 16) & 0xFF);
-        byte g = (byte) ((color >> 8) & 0xFF);
-        byte b = (byte) (color & 0xFF);
-
-        if (alpha) {
-            byte a = (byte) ((color >> 24) & 0xFF);
-            return setColor(r, g, b, a);
-        } else {
-            return setColor(r, g, b);
-        }
-    }
-
-    public BasicData setColor(int r, int g, int b) {
+	public BasicData setColor(int r, int g, int b) {
         return setColor((byte) r, (byte) g, (byte) b);
     }
 

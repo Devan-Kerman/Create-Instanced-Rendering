@@ -22,9 +22,6 @@ import net.minecraft.world.IWorldReader;
  */
 public class ShadowRenderHelper {
 
-	private static final RenderType SHADOW_LAYER =
-		RenderType.getEntityNoOutline(new ResourceLocation("textures/misc/shadow.png"));
-
 	public static void renderShadow(MatrixStack p_229096_0_, IRenderTypeBuffer p_229096_1_, Vector3d pos,
 		float p_229096_3_, float p_229096_6_) {
 		float f = p_229096_6_;
@@ -46,49 +43,6 @@ public class ShadowRenderHelper {
 				p_229096_3_);
 		}
 
-	}
-
-	private static void renderShadowPart(MatrixStack.Entry p_229092_0_, IVertexBuilder p_229092_1_,
-		IWorldReader p_229092_2_, BlockPos p_229092_3_, double p_229092_4_, double p_229092_6_, double p_229092_8_,
-		float p_229092_10_, float p_229092_11_) {
-		BlockPos blockpos = p_229092_3_.down();
-		BlockState blockstate = p_229092_2_.getBlockState(blockpos);
-		if (blockstate.getRenderType() != BlockRenderType.INVISIBLE && p_229092_2_.getLight(p_229092_3_) > 3) {
-			if (blockstate.isFullCube(p_229092_2_, blockpos)) {
-				VoxelShape voxelshape = blockstate.getShape(p_229092_2_, p_229092_3_.down());
-				if (!voxelshape.isEmpty()) {
-					@SuppressWarnings("deprecation")
-					float f = (float) (((double) p_229092_11_ - (p_229092_6_ - (double) p_229092_3_.getY()) / 2.0D)
-						* 0.5D * (double) p_229092_2_.getBrightness(p_229092_3_));
-					if (f >= 0.0F) {
-						if (f > 1.0F) {
-							f = 1.0F;
-						}
-
-						AxisAlignedBB axisalignedbb = voxelshape.getBoundingBox();
-						double d0 = (double) p_229092_3_.getX() + axisalignedbb.minX;
-						double d1 = (double) p_229092_3_.getX() + axisalignedbb.maxX;
-						double d2 = (double) p_229092_3_.getY() + axisalignedbb.minY;
-						double d3 = (double) p_229092_3_.getZ() + axisalignedbb.minZ;
-						double d4 = (double) p_229092_3_.getZ() + axisalignedbb.maxZ;
-						float f1 = (float) (d0 - p_229092_4_);
-						float f2 = (float) (d1 - p_229092_4_);
-						float f3 = (float) (d2 - p_229092_6_ + 0.015625D);
-						float f4 = (float) (d3 - p_229092_8_);
-						float f5 = (float) (d4 - p_229092_8_);
-						float f6 = -f1 / 2.0F / p_229092_10_ + 0.5F;
-						float f7 = -f2 / 2.0F / p_229092_10_ + 0.5F;
-						float f8 = -f4 / 2.0F / p_229092_10_ + 0.5F;
-						float f9 = -f5 / 2.0F / p_229092_10_ + 0.5F;
-						shadowVertex(p_229092_0_, p_229092_1_, f, f1, f3, f4, f6, f8);
-						shadowVertex(p_229092_0_, p_229092_1_, f, f1, f3, f5, f6, f9);
-						shadowVertex(p_229092_0_, p_229092_1_, f, f2, f3, f5, f7, f9);
-						shadowVertex(p_229092_0_, p_229092_1_, f, f2, f3, f4, f7, f8);
-					}
-
-				}
-			}
-		}
 	}
 
 	private static void shadowVertex(MatrixStack.Entry p_229091_0_, IVertexBuilder p_229091_1_, float p_229091_2_,

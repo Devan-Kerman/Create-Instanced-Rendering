@@ -28,7 +28,7 @@ public class SuperRenderTypeBuffer implements IRenderTypeBuffer {
 	SuperRenderTypeBufferPhase defaultBuffer;
 	SuperRenderTypeBufferPhase lateBuffer;
 
-	public SuperRenderTypeBuffer() {
+	private SuperRenderTypeBuffer() {
 		earlyBuffer = new SuperRenderTypeBufferPhase();
 		defaultBuffer = new SuperRenderTypeBufferPhase();
 		lateBuffer = new SuperRenderTypeBufferPhase();

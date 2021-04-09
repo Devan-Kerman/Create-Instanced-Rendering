@@ -16,10 +16,6 @@ public class PlacementSimulationWorldStarlight extends PlacementSimulationWorld 
 
 	VariableBlockLightHandler variableBlockLightHandler = new VariableBlockLightHandlerImpl();
 
-	public PlacementSimulationWorldStarlight(World wrapped) {
-		super(wrapped, new WrappedChunkProvider(WrappedChunkStarlight::new));
-	}
-
 	@Override
 	public Chunk getChunkAtImmediately(int i, int i1) {
 		return null;

@@ -33,9 +33,8 @@ public abstract class InstancedModel<D extends InstanceData> extends BufferedMod
     boolean anyToRemove;
     boolean anyToUpdate;
 
-    public InstancedModel(InstancedTileRenderer<?> renderer, BufferBuilder buf) {
+    public InstancedModel(BufferBuilder buf) {
         super(buf);
-        this.renderer = renderer;
     }
 
     @Override
@@ -56,11 +55,7 @@ public abstract class InstancedModel<D extends InstanceData> extends BufferedMod
         return data.size();
     }
 
-    public boolean isEmpty() {
-        return instanceCount() == 0;
-    }
-
-    protected void deleteInternal() {
+	protected void deleteInternal() {
         super.deleteInternal();
 
         instanceVBO.delete();

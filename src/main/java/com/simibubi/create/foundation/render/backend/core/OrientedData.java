@@ -81,24 +81,5 @@ public class OrientedData extends BasicData {
 		return this;
 	}
 
-	@Override
-	public void write(ByteBuffer buf) {
-		super.write(buf);
-
-		buf.asFloatBuffer().put(new float[] {
-				posX,
-				posY,
-				posZ,
-				pivotX,
-				pivotY,
-				pivotZ,
-				qX,
-				qY,
-				qZ,
-				qW
-		});
-
-		buf.position(buf.position() + 10 * 4);
-	}
 }
 

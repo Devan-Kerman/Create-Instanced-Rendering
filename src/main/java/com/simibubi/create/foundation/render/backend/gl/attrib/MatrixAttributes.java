@@ -12,7 +12,7 @@ public enum MatrixAttributes implements IAttribSpec {
     private final int rows;
     private final int cols;
 
-    MatrixAttributes(int rows, int cols) {
+    private MatrixAttributes(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
     }

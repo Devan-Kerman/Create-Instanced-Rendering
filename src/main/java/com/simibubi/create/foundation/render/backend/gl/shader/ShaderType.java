@@ -9,7 +9,7 @@ public enum ShaderType {
 
     public final int glEnum;
 
-    ShaderType(int glEnum) {
+    private ShaderType(int glEnum) {
         this.glEnum = glEnum;
     }
 }

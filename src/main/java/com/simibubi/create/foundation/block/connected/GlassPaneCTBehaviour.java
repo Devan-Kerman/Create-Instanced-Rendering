@@ -8,10 +8,6 @@ import net.minecraft.world.IBlockDisplayReader;
 
 public class GlassPaneCTBehaviour extends StandardCTBehaviour {
 
-	public GlassPaneCTBehaviour(CTSpriteShiftEntry shift) {
-		super(shift);
-	}
-	
 	@Override
 	public boolean buildContextForOccludedDirections() {
 		return true;

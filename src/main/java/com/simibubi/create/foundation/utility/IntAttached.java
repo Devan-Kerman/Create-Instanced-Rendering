@@ -6,7 +6,7 @@ import net.minecraft.nbt.CompoundNBT;
 
 public class IntAttached<V> extends Pair<Integer, V> {
 
-	protected IntAttached(Integer first, V second) {
+	private IntAttached(Integer first, V second) {
 		super(first, second);
 	}
 
@@ -36,10 +36,6 @@ public class IntAttached<V> extends Pair<Integer, V> {
 
 	public void decrement() {
 		first--;
-	}
-
-	public V getValue() {
-		return getSecond();
 	}
 
 	public CompoundNBT serializeNBT(Function<V, CompoundNBT> serializer) {

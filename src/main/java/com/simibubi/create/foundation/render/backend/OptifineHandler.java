@@ -9,8 +9,7 @@ import java.util.Optional;
 import net.minecraft.client.Minecraft;
 
 public class OptifineHandler {
-    public static final String OPTIFINE_ROOT_PACKAGE = "net.optifine";
-    public static final String SHADER_PACKAGE = "net.optifine.shaders";
+	public static final String SHADER_PACKAGE = "net.optifine.shaders";
 
     private static Package optifine;
     private static OptifineHandler handler;

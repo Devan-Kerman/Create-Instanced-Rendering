@@ -41,34 +41,8 @@ public class SuperByteBufferCache {
 		return getGeneric(toRender, () -> standardBlockRender(toRender));
 	}
 
-	public SuperByteBuffer renderPartial(AllBlockPartials partial, BlockState referenceState) {
-		return get(Compartment.PARTIAL, partial, () -> standardModelRender(partial.get(), referenceState));
-	}
-
-	public SuperByteBuffer renderPartial(AllBlockPartials partial, BlockState referenceState,
-		MatrixStack modelTransform) {
-		return get(Compartment.PARTIAL, partial,
-			() -> standardModelRender(partial.get(), referenceState, modelTransform));
-	}
-
-	public SuperByteBuffer renderDirectionalPartial(AllBlockPartials partial, BlockState referenceState,
-		Direction dir) {
-		return get(Compartment.DIRECTIONAL_PARTIAL, Pair.of(dir, partial),
-			() -> standardModelRender(partial.get(), referenceState));
-	}
-
-	public SuperByteBuffer renderDirectionalPartial(AllBlockPartials partial, BlockState referenceState, Direction dir,
-		MatrixStack modelTransform) {
-		return get(Compartment.DIRECTIONAL_PARTIAL, Pair.of(dir, partial),
-			() -> standardModelRender(partial.get(), referenceState, modelTransform));
-	}
-
 	public SuperByteBuffer renderBlockIn(Compartment<BlockState> compartment, BlockState toRender) {
 		return get(compartment, toRender, () -> standardBlockRender(toRender));
-	}
-
-	SuperByteBuffer getGeneric(BlockState key, Supplier<SuperByteBuffer> supplier) {
-		return get(Compartment.GENERIC_TILE, key, supplier);
 	}
 
 	public <T> SuperByteBuffer get(Compartment<T> compartment, T key, Supplier<SuperByteBuffer> supplier) {

@@ -18,7 +18,7 @@ public class Couple<T> extends Pair<T, T> implements Iterable<T> {
 
 	private static Couple<Boolean> TRUE_AND_FALSE = Couple.create(true, false);
 
-	protected Couple(T first, T second) {
+	private Couple(T first, T second) {
 		super(first, second);
 	}
 
@@ -39,11 +39,6 @@ public class Couple<T> extends Pair<T, T> implements Iterable<T> {
 			setFirst(value);
 		else
 			setSecond(value);
-	}
-
-	@Override
-	public Couple<T> copy() {
-		return create(first, second);
 	}
 
 	public <S> Couple<S> map(Function<T, S> function) {
@@ -82,15 +77,6 @@ public class Couple<T> extends Pair<T, T> implements Iterable<T> {
 		forEachWithParams(consumer, TRUE_AND_FALSE);
 	}
 
-	public <S> void forEachWithParams(BiConsumer<T, S> function, Couple<S> values) {
-		function.accept(getFirst(), values.getFirst());
-		function.accept(getSecond(), values.getSecond());
-	}
-
-	public Couple<T> swap() {
-		return Couple.create(second, first);
-	}
-
 	public ListNBT serializeEach(Function<T, CompoundNBT> serializer) {
 		return NBTHelper.writeCompoundList(ImmutableList.of(first, second), serializer);
 	}
@@ -114,7 +100,7 @@ public class Couple<T> extends Pair<T, T> implements Iterable<T> {
 		int state;
 		private Couple<T> couple;
 
-		public Couplerator(Couple<T> couple) {
+		private Couplerator(Couple<T> couple) {
 			this.couple = couple;
 			state = 0;
 		}

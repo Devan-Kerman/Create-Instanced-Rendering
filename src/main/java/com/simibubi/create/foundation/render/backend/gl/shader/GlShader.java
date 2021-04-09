@@ -14,9 +14,7 @@ public class GlShader extends GlObject {
     public final ShaderType type;
 
     public GlShader(ShaderType type, ResourceLocation name, String source) {
-        this.type = type;
-        this.name = name;
-        int handle = GL20.glCreateShader(type.glEnum);
+	    int handle = GL20.glCreateShader(type.glEnum);
 
         GlCompat.safeShaderSource(handle, source);
         GL20.glCompileShader(handle);

@@ -145,74 +145,7 @@ public class LightVolume {
         copyLight(world, changedVolume);
     }
 
-    /**
-     * Completely (re)populate this volume with block and sky lighting data.
-     * This is expensive and should be avoided.
-     */
-    public void initialize(IBlockDisplayReader world) {
-        BlockPos.Mutable pos = new BlockPos.Mutable();
-
-        int shiftX = textureVolume.minX;
-        int shiftY = textureVolume.minY;
-        int shiftZ = textureVolume.minZ;
-
-        sampleVolume.forEachContained((x, y, z) -> {
-            pos.setPos(x, y, z);
-
-            int blockLight = world.getLightLevel(LightType.BLOCK, pos);
-            int skyLight = world.getLightLevel(LightType.SKY, pos);
-
-            writeLight(x - shiftX, y - shiftY, z - shiftZ, blockLight, skyLight);
-        });
-
-        bufferDirty = true;
-    }
-
-    /**
-     * Copy block light from the world into this volume.
-     * @param worldVolume the region in the world to copy data from.
-     */
-    public void copyBlock(IBlockDisplayReader world, GridAlignedBB worldVolume) {
-        BlockPos.Mutable pos = new BlockPos.Mutable();
-
-        int xShift = textureVolume.minX;
-        int yShift = textureVolume.minY;
-        int zShift = textureVolume.minZ;
-
-        worldVolume.forEachContained((x, y, z) -> {
-            pos.setPos(x, y, z);
-
-            int light = world.getLightLevel(LightType.BLOCK, pos);
-
-            writeBlock(x - xShift, y - yShift, z - zShift, light);
-        });
-
-        bufferDirty = true;
-    }
-
-    /**
-     * Copy sky light from the world into this volume.
-     * @param worldVolume the region in the world to copy data from.
-     */
-    public void copySky(IBlockDisplayReader world, GridAlignedBB worldVolume) {
-        BlockPos.Mutable pos = new BlockPos.Mutable();
-
-        int xShift = textureVolume.minX;
-        int yShift = textureVolume.minY;
-        int zShift = textureVolume.minZ;
-
-        worldVolume.forEachContained((x, y, z) -> {
-            pos.setPos(x, y, z);
-
-            int light = world.getLightLevel(LightType.SKY, pos);
-
-            writeSky(x - xShift, y - yShift, z - zShift, light);
-        });
-
-        bufferDirty = true;
-    }
-
-    /**
+	/**
      * Copy all light from the world into this volume.
      * @param worldVolume the region in the world to copy data from.
      */

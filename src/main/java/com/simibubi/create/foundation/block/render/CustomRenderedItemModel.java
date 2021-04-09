@@ -23,16 +23,10 @@ public abstract class CustomRenderedItemModel extends WrappedBakedModel {
 	protected TransformType currentPerspective;
 	protected ItemStackTileEntityRenderer renderer;
 
-	public CustomRenderedItemModel(IBakedModel template, String basePath) {
-		super(template);
-		this.basePath = basePath;
-		this.renderer = createRenderer();
-	}
-
 	public final List<ResourceLocation> getModelLocations() {
 		return partials.keySet().stream().map(this::getPartialModelLocation).collect(Collectors.toList());
 	}
-	
+
 	public ItemStackTileEntityRenderer getRenderer() {
 		return renderer;
 	}
@@ -42,12 +36,6 @@ public abstract class CustomRenderedItemModel extends WrappedBakedModel {
 	@Override
 	public boolean isBuiltInRenderer() {
 		return true;
-	}
-
-	@Override
-	public IBakedModel handlePerspective(TransformType cameraTransformType, MatrixStack mat) {
-		currentPerspective = cameraTransformType;
-		return super.handlePerspective(cameraTransformType, mat);
 	}
 
 	protected void addPartials(String... partials) {
@@ -73,7 +61,7 @@ public abstract class CustomRenderedItemModel extends WrappedBakedModel {
 	public TransformType getCurrentPerspective() {
 		return currentPerspective;
 	}
-	
+
 	public IBakedModel getPartial(String name) {
 		return partials.get(name);
 	}

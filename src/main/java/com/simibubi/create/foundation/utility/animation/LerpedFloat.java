@@ -128,10 +128,6 @@ public class LerpedFloat {
 		public static final Chaser EXP = exp(Double.MAX_VALUE);
 		public static final Chaser LINEAR = (c, s, t) -> (float) (c + MathHelper.clamp(t - c, -s, s));
 
-		public static Chaser exp(double maxEffectiveSpeed) {
-			return (c, s, t) -> (float) (c + MathHelper.clamp((t - c) * s, -maxEffectiveSpeed, maxEffectiveSpeed));
-		}
-
 		float chase(double current, double speed, double target);
 	}
 

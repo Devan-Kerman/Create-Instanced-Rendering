@@ -12,10 +12,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 public class Lang {
 
-	public static TranslationTextComponent translate(String key, Object... args) {
-		return createTranslationTextComponent(key, args);
-	}
-
 	public static TranslationTextComponent createTranslationTextComponent(String key, Object... args) {
 		return new TranslationTextComponent(Create.ID + "." + key, args);
 	}

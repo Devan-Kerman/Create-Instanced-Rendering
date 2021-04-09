@@ -35,17 +35,8 @@ public class AnimationTickHolder {
 		return (mc.isGamePaused() ? mc.renderPartialTicksPaused : mc.getRenderPartialTicks());
 	}
 
-	public static int getTicks(IWorld world) {
-		if (world instanceof WrappedClientWorld)
-			return getTicks(((WrappedClientWorld) world).getWrappedWorld());
-		return world instanceof PonderWorld ? PonderUI.ponderTicks : getTicks();
-	}
-
 	public static float getRenderTime(IWorld world) {
 		return getTicks(world) + getPartialTicks(world);
 	}
 
-	public static float getPartialTicks(IWorld world) {
-		return world instanceof PonderWorld ? PonderUI.getPartialTicks() : getPartialTicks();
-	}
 }

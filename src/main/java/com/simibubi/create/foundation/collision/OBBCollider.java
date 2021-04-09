@@ -75,7 +75,7 @@ public class OBBCollider {
 		Vector3d axis;
 		double separation;
 
-		public SeparationManifold() {
+		private SeparationManifold() {
 			axis = Vector3d.ZERO;
 			separation = Double.MAX_VALUE;
 		}

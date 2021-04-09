@@ -13,10 +13,8 @@ import com.simibubi.create.content.curiosities.zapper.ZapperItem;
 import com.simibubi.create.content.schematics.ServerSchematicLoader;
 import com.simibubi.create.foundation.command.AllCommands;
 import com.simibubi.create.foundation.fluid.FluidHelper;
-import com.simibubi.create.foundation.utility.Iterate;
 import com.simibubi.create.foundation.utility.ServerSpeedProvider;
 import com.simibubi.create.foundation.utility.WorldAttached;
-import com.simibubi.create.foundation.utility.recipe.RecipeFinder;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;

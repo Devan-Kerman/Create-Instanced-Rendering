@@ -2,10 +2,10 @@ package com.simibubi.create;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 
-@EventBusSubscriber(value = Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public enum AllSpecialTextures {
 
 	BLANK("blank.png"),

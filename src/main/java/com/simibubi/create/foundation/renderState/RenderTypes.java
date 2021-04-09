@@ -64,8 +64,6 @@ public class RenderTypes extends RenderState {
 	}
 
 	private static final RenderType GLOWING_SOLID = RenderTypes.getGlowingSolid(PlayerContainer.BLOCK_ATLAS_TEXTURE);
-	private static final RenderType GLOWING_TRANSLUCENT =
-		RenderTypes.getGlowingTranslucent(PlayerContainer.BLOCK_ATLAS_TEXTURE);
 
 	private static final RenderType ITEM_PARTIAL_SOLID =
 		RenderType.of("item_solid", DefaultVertexFormats.POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL, 7, 256, true,
@@ -109,7 +107,7 @@ public class RenderTypes extends RenderState {
 	}
 
 	protected static class NoCullState extends RenderState.CullState {
-		public NoCullState() {
+		private NoCullState() {
 			super(false);
 		}
 

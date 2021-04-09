@@ -96,13 +96,6 @@ public class PlacementOffset {
 		return ghostState;
 	}
 
-	public boolean isReplaceable(World world) {
-		if (!success)
-			return false;
-
-		return world.getBlockState(new BlockPos(pos)).getMaterial().isReplaceable();
-	}
-	
 	public ActionResultType placeInWorld(World world, BlockItem blockItem, PlayerEntity player, Hand hand, BlockRayTraceResult ray) {
 
 		if (!isReplaceable(world))

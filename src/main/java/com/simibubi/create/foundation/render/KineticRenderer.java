@@ -6,7 +6,6 @@ import com.simibubi.create.content.contraptions.base.KineticRenderMaterials;
 import com.simibubi.create.content.contraptions.base.RotatingModel;
 import com.simibubi.create.content.contraptions.relays.belt.BeltInstancedModel;
 import com.simibubi.create.content.logistics.block.FlapModel;
-import com.simibubi.create.foundation.render.backend.MaterialTypes;
 import com.simibubi.create.foundation.render.backend.core.OrientedModel;
 import com.simibubi.create.foundation.render.backend.core.TransformedModel;
 import com.simibubi.create.foundation.render.backend.gl.BasicProgram;

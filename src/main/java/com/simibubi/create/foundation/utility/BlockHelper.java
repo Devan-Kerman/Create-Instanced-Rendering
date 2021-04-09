@@ -173,15 +173,6 @@ public class BlockHelper {
 		return amountFound;
 	}
 
-	public static ItemStack getRequiredItem(BlockState state) {
-		ItemStack itemStack = new ItemStack(state.getBlock());
-		if (itemStack.getItem() == Items.FARMLAND)
-			itemStack = new ItemStack(Items.DIRT);
-		else if (itemStack.getItem() == Items.GRASS_PATH)
-			itemStack = new ItemStack(Items.GRASS_BLOCK);
-		return itemStack;
-	}
-
 	public static void destroyBlock(World world, BlockPos pos, float effectChance) {
 		destroyBlock(world, pos, effectChance, stack -> Block.spawnAsEntity(world, pos, stack));
 	}

@@ -15,15 +15,6 @@ public class WrappedChunkStarlight extends WrappedChunk implements ExtendedChunk
 	private boolean[] skyEmptinessMap;
 	private boolean[] blockEmptinessMap;
 
-	public WrappedChunkStarlight(PlacementSimulationWorld world, int x, int z) {
-		super(world, x, z);
-
-		this.blockNibbles = StarLightEngine.getFilledEmptyLight(world);
-		this.skyNibbles = StarLightEngine.getFilledEmptyLight(world);
-		this.skyEmptinessMap = getEmptySectionsForChunk(this);
-		this.blockEmptinessMap = getEmptySectionsForChunk(this);
-	}
-
 	@Override
 	public SWMRNibbleArray[] getBlockNibbles() {
 		return blockNibbles;

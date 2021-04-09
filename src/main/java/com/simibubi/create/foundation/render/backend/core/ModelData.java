@@ -21,10 +21,4 @@ public class ModelData extends BasicData {
         return this;
     }
 
-    @Override
-    public void write(ByteBuffer buf) {
-        super.write(buf);
-        buf.asFloatBuffer().put(matrices);
-        buf.position(buf.position() + matrices.length * 4);
-    }
 }
